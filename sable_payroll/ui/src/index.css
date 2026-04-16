@@ -12,7 +12,7 @@ html,
 body {
     margin: 0;
     padding: 0;
-    visibility: hidden; /* DO NOT REMOVE — LB Tablet uncloaks on ready */
+    visibility: hidden; /* toggled by JS when NUI opens/closes */
     font-family: var(--font-ui);
     font-size: 14px;
     color: var(--text-0);
