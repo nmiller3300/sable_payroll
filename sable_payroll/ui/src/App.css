@@ -26,7 +26,7 @@
 /* ----------------------------------------------------------------------------
  * DEV FRAME — only visible when running `npm run dev` at localhost:3000.
  * Puts the app inside a 4:3 tablet-shaped card so we can iterate in a browser
- * without the game running. Hidden/ignored when mounted inside LB Tablet.
+ * without the game running. Hidden/ignored when mounted inside standalone tablet NUI.
  * --------------------------------------------------------------------------- */
 .dev-wrapper {
     position: absolute;

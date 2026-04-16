@@ -1,13 +1,13 @@
 // ============================================================================
 // src/App.tsx
-// Application shell — runs both in the real LB Tablet environment and in the
+// Application shell — runs both in the real standalone tablet NUI environment and in the
 // browser dev frame. Drives snapshot fetch/refresh, theme, toasts, and
 // routes between Officer and Command views.
 // ============================================================================
 
 import React, { useCallback, useEffect, useState } from 'react'
 import type { Snapshot, ToastPayload } from './types/api'
-import { apiRefresh } from './lib/api'
+import { apiCloseApp, apiRefresh } from './lib/api'
 import { Button, Chip, I, Loading, Empty } from './components/ui'
 import OfficerView from './screens/OfficerView'
 import CommandView, { CommandTab } from './screens/CommandView'
@@ -41,17 +41,22 @@ function useToasts() {
 // --------------------------------------------------------------------------
 function useTheme() {
     const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+
     useEffect(() => {
-        if (devMode) { document.documentElement.style.visibility = 'visible' ; document.body.style.visibility = 'visible'; return }
         const apply = (t?: string) => setTheme(t === 'light' ? 'light' : 'dark')
-        apply((globalThis as any).settings?.display?.theme)
-        const off = (globalThis as any).onSettingsChange?.((s: any) =>
-            apply(s?.display?.theme))
-        if (!(globalThis as any).GetParentResourceName) {
-            document.body.style.visibility = 'visible'
-        }
-        return () => { if (typeof off === 'function') off() }
+        apply((window as any).sableTheme ?? 'dark')
+
+        const off = (globalThis as any).onNuiEvent?.('sable:open', (data: any) => {
+            apply(data?.theme)
+        })
+
+        return () => { off?.() }
     }, [])
+
+    useEffect(() => {
+        document.body.setAttribute('data-theme', theme)
+    }, [theme])
+
     return theme
 }
 
@@ -84,6 +89,17 @@ export default function App() {
         const off2 = (globalThis as any).onNuiEvent?.('sable:forceRefresh', () => reload())
         return () => { off1?.(); off2?.() }
     }, [push, reload])
+
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && !devMode) {
+                apiCloseApp().catch(() => {})
+            }
+        }
+
+        window.addEventListener('keydown', onKeyDown)
+        return () => window.removeEventListener('keydown', onKeyDown)
+    }, [])
 
     return (
         <AppFrame theme={theme}>

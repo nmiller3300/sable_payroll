@@ -1,7 +1,7 @@
 # S.A.B.L.E. Payroll Systems
 
 Manual payroll & timekeeping for QBox law-enforcement departments,
-delivered as an LB Tablet custom app.
+delivered as a standalone tablet-style NUI app.
 
 Departments supported: **SASP · BCSO · RCSO · LSPD** (each a separate QBox
 job, fully isolated from one another).
@@ -27,27 +27,18 @@ Then in **`server.cfg`** add:
 ensure oxmysql
 ensure ox_lib
 ensure qbx_core
-ensure lb-tablet
 ensure mw-banking
 ensure sable_payroll
 ```
 
 **Order matters** — `sable_payroll` must start AFTER `qbx_core`,
-`ox_lib`, `lb-tablet`, and `mw-banking`.
+`ox_lib`, and `mw-banking`.
 
 Restart the server. On first start, `sable_payroll` auto-installs its
 nine database tables (all `CREATE TABLE IF NOT EXISTS`, safe to re-run).
 
 ---
 
-## Where `lb-tablet` goes
-
-`lb-tablet` is a **separate resource** — drop its folder into `resources/`
-alongside everything else and add `ensure lb-tablet` to `server.cfg` (as
-shown above). `sable_payroll` does NOT go inside `lb-tablet`; they live
-side-by-side.
-
----
 
 ## Do I need to do anything else?
 
@@ -72,9 +63,8 @@ side-by-side.
 
 ## How officers use it
 
-1. Pull out the tablet (whatever your server's keybind is — default `F1`).
-2. Open the **S.A.B.L.E.** app (gold eagle logo).
-3. Tap **Clock In** when they come on shift. Clock out when leaving.
+1. Use `/sablepayroll` (or the default **F6** keybind) to open the S.A.B.L.E. tablet UI.
+2. Tap **Clock In** when they come on shift. Clock out when leaving.
 
 **Anti-abuse is built in:**
 - AFK auto clock-out after 15 min of no movement (configurable).
@@ -163,7 +153,7 @@ sable_payroll/
 │   ├── payroll.lua             preview + process engine
 │   └── main.lua                all callbacks + event hooks + exports
 ├── client/
-│   ├── main.lua                LB Tablet app registration + NUI bridge
+│   ├── main.lua                NUI open/close + callback bridge
 │   ├── heartbeat.lua           AFK position heartbeat
 │   └── events.lua              death / medical hooks
 ├── ui/
@@ -183,9 +173,7 @@ sable_payroll/
 
 ## Troubleshooting
 
-- **App doesn't appear on the tablet** — You're not on an allowed job.
-  Join one and reopen the tablet. The app registers/unregisters on job
-  change automatically.
+- **UI won't open** — You're not on an allowed job, or another resource is consuming the keybind. Try `/sablepayroll` directly.
 - **"Schema installation failed"** on first start — usually oxmysql not
   ready yet. Restart the resource once.
 - **Pay didn't move** — check the payroll preview's "blockers" section.

@@ -1,7 +1,7 @@
 Config = {}
 
 -- ============================================================================
--- LB Tablet app identity
+-- Standalone tablet app identity
 -- ============================================================================
 Config.AppIdentifier = "sable_payroll"
 Config.AppName       = "S.A.B.L.E."
