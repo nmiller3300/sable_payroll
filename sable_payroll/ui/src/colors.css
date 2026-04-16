@@ -1,0 +1,173 @@
+/* ============================================================================
+ * src/colors.css
+ * Design tokens for the S.A.B.L.E. tablet app.
+ *
+ * Aesthetic: macOS Sonoma — translucent layered glass with heavy backdrop
+ * blur, hairline borders carrying a 1px inner top highlight, and a single
+ * amber/gold accent pulled through the whole UI. Navy ground in dark mode,
+ * warm off-white ground in light mode. No pure black, no pure white.
+ *
+ * Conventions
+ *   --bg-*        opaque stage (body / viewport)
+ *   --glass-*     the translucent card / panel surface (use with blur)
+ *   --stroke-*    hairline borders
+ *   --text-*      foreground text (primary/secondary/tertiary)
+ *   --accent-*    brand gold scale
+ *   --brand-*     navy scale
+ *   --status-*    ok / warn / danger (for tags, chips, progress)
+ *   --shadow-*    elevation recipes
+ *   --radius-*    corner radii
+ *   --dur-*       motion durations
+ * ========================================================================= */
+
+/* -------------------------------------------------------------------------
+ * LIGHT MODE (default)
+ * ------------------------------------------------------------------------- */
+:root {
+    /* brand — navy, used for accents / headings / tinted surfaces */
+    --brand-900: #060d1a;
+    --brand-800: #0a1630;
+    --brand-700: #0f2045;
+    --brand-600: #132a5f;
+    --brand-500: #1c3a7b;
+    --brand-400: #3a5aa1;
+    --brand-300: #647fc3;
+    --brand-200: #a4b6dc;
+    --brand-100: #dbe4f3;
+    --brand-050: #eef2fa;
+
+    /* accent — gold, the single hero accent */
+    --accent-700: #8d6f15;
+    --accent-600: #a9861c;
+    --accent-500: #c9a227;
+    --accent-400: #d8b450;
+    --accent-300: #e7cb80;
+    --accent-200: #f2e1ad;
+    --accent-100: #faf1d6;
+
+    /* ground — warm off-white, subtly tinted with navy */
+    --bg-0: #f2f4f8; /* viewport fallback */
+    --bg-1: #edf0f6; /* behind cards */
+    --bg-2: #e4e9f1; /* deepest fill under glass */
+
+    /* glass stack — translucent layers on top of ground */
+    --glass-1: rgba(255, 255, 255, 0.58);
+    --glass-2: rgba(255, 255, 255, 0.72);
+    --glass-3: rgba(255, 255, 255, 0.85);
+    --glass-tint: rgba(28, 58, 123, 0.04); /* cool navy wash */
+
+    /* hairline strokes — cooler than the glass fill */
+    --stroke-1: rgba(18, 32, 69, 0.08);
+    --stroke-2: rgba(18, 32, 69, 0.14);
+    --stroke-top: rgba(255, 255, 255, 0.9); /* inner top highlight */
+
+    /* text */
+    --text-0: #0b1324; /* primary */
+    --text-1: #31405c; /* secondary */
+    --text-2: #6a7691; /* tertiary */
+    --text-disabled: #a4aec3;
+    --text-on-accent: #1c1405;
+    --text-on-brand: #f4f7fd;
+
+    /* status */
+    --status-ok: #2b8a5a;
+    --status-ok-bg: rgba(43, 138, 90, 0.12);
+    --status-warn: #b57b10;
+    --status-warn-bg: rgba(181, 123, 16, 0.14);
+    --status-danger: #b23a3a;
+    --status-danger-bg: rgba(178, 58, 58, 0.12);
+    --status-info: #2563a8;
+    --status-info-bg: rgba(37, 99, 168, 0.12);
+
+    /* elevation — Sonoma style: a tight crisp shadow + a soft ambient */
+    --shadow-1:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 1px 1px rgba(18, 32, 69, 0.04),
+        0 8px 28px -10px rgba(18, 32, 69, 0.18);
+    --shadow-2:
+        0 1px 0 rgba(255, 255, 255, 0.8) inset,
+        0 2px 4px rgba(18, 32, 69, 0.06),
+        0 18px 50px -16px rgba(18, 32, 69, 0.25);
+    --shadow-popover:
+        0 1px 0 rgba(255, 255, 255, 0.8) inset,
+        0 24px 60px -20px rgba(18, 32, 69, 0.4),
+        0 4px 10px rgba(18, 32, 69, 0.08);
+
+    /* radius */
+    --radius-xs: 6px;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 22px;
+    --radius-pill: 999px;
+
+    /* motion */
+    --dur-fast: 120ms;
+    --dur-med: 220ms;
+    --dur-slow: 420ms;
+    --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* typographic scale — Inter for UI, Oswald for rank/badge display */
+    --font-ui: 'Inter', system-ui, -apple-system, 'SF Pro Text', sans-serif;
+    --font-display: 'Oswald', 'Inter', system-ui, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+    --blur-glass: 24px;
+    --blur-panel: 40px;
+}
+
+/* -------------------------------------------------------------------------
+ * DARK MODE — LB Tablet sets data-theme="dark" on <body>, but the template's
+ * pattern is to drive it from globalThis.settings.display.theme and reflect
+ * it on the <div class="app"> root. Support both so either works.
+ * ------------------------------------------------------------------------- */
+[data-theme='dark'],
+.app[data-theme='dark'] {
+    /* ground — deep navy gradient, never pure black */
+    --bg-0: #060c1a;
+    --bg-1: #0a1226;
+    --bg-2: #0e1831;
+
+    /* glass stack — navy-tinted translucency */
+    --glass-1: rgba(22, 36, 72, 0.44);
+    --glass-2: rgba(28, 46, 92, 0.58);
+    --glass-3: rgba(36, 58, 112, 0.72);
+    --glass-tint: rgba(201, 162, 39, 0.03); /* tiny gold wash */
+
+    /* strokes carry a 1px inner top highlight for the "lens" effect */
+    --stroke-1: rgba(255, 255, 255, 0.06);
+    --stroke-2: rgba(255, 255, 255, 0.1);
+    --stroke-top: rgba(255, 255, 255, 0.12);
+
+    --text-0: #f1f4fb;
+    --text-1: #b9c3dc;
+    --text-2: #7d8aa8;
+    --text-disabled: #4e5a77;
+    --text-on-accent: #1c1405;
+    --text-on-brand: #f1f4fb;
+
+    /* status — slightly brighter so they read on deep navy */
+    --status-ok: #3fd08a;
+    --status-ok-bg: rgba(63, 208, 138, 0.14);
+    --status-warn: #e4b040;
+    --status-warn-bg: rgba(228, 176, 64, 0.16);
+    --status-danger: #ff6b6b;
+    --status-danger-bg: rgba(255, 107, 107, 0.14);
+    --status-info: #6ba8e8;
+    --status-info-bg: rgba(107, 168, 232, 0.14);
+
+    /* shadows — heavier ambient, no bright inset (would glow)  */
+    --shadow-1:
+        0 1px 0 rgba(255, 255, 255, 0.06) inset,
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        0 16px 40px -12px rgba(0, 0, 0, 0.6);
+    --shadow-2:
+        0 1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 4px 12px rgba(0, 0, 0, 0.45),
+        0 30px 60px -20px rgba(0, 0, 0, 0.75);
+    --shadow-popover:
+        0 1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 40px 80px -20px rgba(0, 0, 0, 0.8),
+        0 8px 16px rgba(0, 0, 0, 0.5);
+}

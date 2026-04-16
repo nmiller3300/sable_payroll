@@ -1,0 +1,91 @@
+/* ============================================================================
+ * src/App.css
+ * The app-level shell layout. The Sonoma language keeps the app itself
+ * transparent and lets the backdrop (from index.css) show through the
+ * translucent glass panels we'll render in components.
+ * ========================================================================= */
+
+.app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color: var(--text-0);
+    font-family: var(--font-ui);
+    isolation: isolate;
+}
+
+.app-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ----------------------------------------------------------------------------
+ * DEV FRAME — only visible when running `npm run dev` at localhost:3000.
+ * Puts the app inside a 4:3 tablet-shaped card so we can iterate in a browser
+ * without the game running. Hidden/ignored when mounted inside LB Tablet.
+ * --------------------------------------------------------------------------- */
+.dev-wrapper {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    height: 78vh;
+    aspect-ratio: 4 / 3;
+    max-width: 96vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ----------------------------------------------------------------------------
+ * Typography defaults used across the app.
+ * --------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-0);
+}
+
+h1 { font-size: 1.5rem;  line-height: 1.15; }
+h2 { font-size: 1.25rem; line-height: 1.2;  }
+h3 { font-size: 1.05rem; line-height: 1.25; }
+h4 { font-size: 0.95rem; line-height: 1.3;  }
+
+.display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.mono {
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum' 1, 'zero' 1;
+}
+
+/* tabular-ish numerics when you need columns to line up */
+.tabular {
+    font-variant-numeric: tabular-nums;
+}
+
+p { margin: 0; }
+
+/* ----------------------------------------------------------------------------
+ * Utility: flex helpers that pair well with the glass layout primitives.
+ * --------------------------------------------------------------------------- */
+.row { display: flex; align-items: center; gap: 0.75rem; }
+.col { display: flex; flex-direction: column; gap: 0.5rem; }
+.grow { flex: 1 1 auto; min-width: 0; }
+.spacer { flex: 1; }
+
+.muted    { color: var(--text-1); }
+.subtle   { color: var(--text-2); }
+.disabled { color: var(--text-disabled); }
+
+.accent { color: var(--accent-500); }
+.brand  { color: var(--brand-500); }
+[data-theme='dark'] .brand { color: var(--brand-300); }

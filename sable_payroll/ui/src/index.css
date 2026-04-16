@@ -1,0 +1,145 @@
+/* ============================================================================
+ * src/index.css
+ * Page-level reset + the viewport backdrop that glass panels sit on top of.
+ * The template requires body { visibility: hidden } until JS uncloaks it.
+ * ========================================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    visibility: hidden; /* DO NOT REMOVE — LB Tablet uncloaks on ready */
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--text-0);
+    background: var(--bg-0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+/* ----------------------------------------------------------------------------
+ * Wallpaper — a layered gradient wash evoking Sonoma's default desktop.
+ * Dark mode: deep navy with a gold/brand hint bleeding in from corners.
+ * Light mode: soft pearlescent off-white with cool and warm pools.
+ * --------------------------------------------------------------------------- */
+.app-backdrop {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--bg-0);
+}
+
+.app-backdrop::before,
+.app-backdrop::after {
+    content: '';
+    position: absolute;
+    inset: -15%;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* cool pool — top-left navy wash */
+.app-backdrop::before {
+    background: radial-gradient(
+        60% 55% at 18% 22%,
+        color-mix(in oklab, var(--brand-500) 45%, transparent) 0%,
+        transparent 60%
+    );
+    filter: blur(40px);
+    opacity: 0.9;
+}
+
+/* warm pool — bottom-right gold wash */
+.app-backdrop::after {
+    background: radial-gradient(
+        55% 50% at 82% 88%,
+        color-mix(in oklab, var(--accent-500) 28%, transparent) 0%,
+        transparent 65%
+    );
+    filter: blur(60px);
+    opacity: 0.7;
+}
+
+[data-theme='dark'] .app-backdrop::before {
+    background: radial-gradient(
+        60% 55% at 18% 22%,
+        color-mix(in oklab, var(--brand-400) 55%, transparent) 0%,
+        transparent 60%
+    );
+    opacity: 0.55;
+}
+
+[data-theme='dark'] .app-backdrop::after {
+    background: radial-gradient(
+        55% 50% at 82% 88%,
+        color-mix(in oklab, var(--accent-500) 40%, transparent) 0%,
+        transparent 65%
+    );
+    opacity: 0.35;
+}
+
+/* subtle noise overlay — Sonoma's wallpapers have a film grain */
+.app-backdrop > .noise {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.25;
+    mix-blend-mode: overlay;
+}
+
+/* ----------------------------------------------------------------------------
+ * Scrollbars — thin, rounded, fade in on hover (classic macOS treatment).
+ * --------------------------------------------------------------------------- */
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--text-2) 40%, transparent);
+    border-radius: var(--radius-pill);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background var(--dur-fast) var(--ease-out);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--text-1) 55%, transparent);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+
+/* ----------------------------------------------------------------------------
+ * Global selection
+ * --------------------------------------------------------------------------- */
+::selection {
+    background: color-mix(in oklab, var(--accent-500) 55%, transparent);
+    color: var(--text-on-accent);
+}
+
+/* ----------------------------------------------------------------------------
+ * A11y — honor reduced motion for things that animate.
+ * --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
