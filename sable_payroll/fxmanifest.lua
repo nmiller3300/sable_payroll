@@ -3,7 +3,7 @@ game "gta5"
 
 name "sable_payroll"
 author "S.A.B.L.E."
-description "Manual payroll and timekeeping system for QBox departments (SASP/BCSO/RCSO/LSPD), delivered as an LB Tablet custom app."
+description "Manual payroll and timekeeping system for QBox departments (SASP/BCSO/RCSO/LSPD) with a built-in tablet-style UI."
 version "1.0.0"
 
 lua54 "yes"
@@ -45,6 +45,5 @@ ui_page "ui/dist/index.html"
 dependencies {
     "qbx_core",
     "oxmysql",
-    "ox_lib",
-    "lb-tablet"
+    "ox_lib"
 }

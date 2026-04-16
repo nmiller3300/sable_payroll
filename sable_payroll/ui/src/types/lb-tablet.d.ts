@@ -1,8 +1,6 @@
 // ============================================================================
 // src/types/lb-tablet.d.ts
-// Ambient type declarations for the globals that lb-tablet's components.js
-// injects into our UI window at runtime.
-// Sourced from the lb-tablet-reactts template's components.d.ts.
+// Ambient type declarations for globals used by the standalone NUI UI.
 // ============================================================================
 
 type Settings = {
@@ -121,8 +119,8 @@ declare global {
     var setColorPicker: (options: ColorPicker) => void;
     var setIndicatorVisible: (visible: boolean) => void;
 
-    var fetchNui: <T = unknown>(eventName: string, data?: unknown, mockData?: T) => Promise<T>;
-    var onNuiEvent: <T = unknown>(eventName: string, cb: (data: T) => void) => void;
+    var GetParentResourceName: (() => string) | undefined;
+    var onNuiEvent: <T = unknown>(eventName: string, cb: (data: T) => void) => (() => void) | void;
     var useNuiEvent: <T = unknown>(eventName: string, cb: (data: T) => void) => void;
     var onSettingsChange: (cb: (settings: Settings) => void) => void;
 

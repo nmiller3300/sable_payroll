@@ -1,6 +1,6 @@
 // ============================================================================
 // src/lib/useToasts.ts
-// Lightweight toast system. Receives pushes from the client via LB Tablet's
+// Lightweight toast system. Receives pushes from the client via standalone tablet NUI's
 // onNuiEvent('sable:toast', payload) and exposes a simple push() helper too.
 // ============================================================================
 

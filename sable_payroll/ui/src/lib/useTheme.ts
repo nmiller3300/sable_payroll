@@ -1,6 +1,6 @@
 // ============================================================================
 // src/lib/useTheme.ts
-// Syncs to LB Tablet's settings.display.theme; falls back to 'dark' in dev.
+// Syncs to standalone tablet NUI's settings.display.theme; falls back to 'dark' in dev.
 // ============================================================================
 
 import { useEffect, useState } from 'react'

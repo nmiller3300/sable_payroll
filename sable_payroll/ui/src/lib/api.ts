@@ -1,6 +1,6 @@
 // ============================================================================
 // src/lib/api.ts
-// Typed wrapper around LB Tablet's globalThis.fetchNui.
+// Typed wrapper around NUI callbacks.
 // In browser dev mode (no invokeNative), returns rich mock fixtures so the
 // UI is fully explorable without the game running.
 // ============================================================================
@@ -31,11 +31,24 @@ async function call<T>(event: string, data?: unknown): Promise<T> {
         return handler(data) as T
     }
 
-    if (typeof globalThis.fetchNui !== 'function') {
-        throw new Error('fetchNui is not available on globalThis')
+    if (typeof fetch !== 'function') {
+        throw new Error('fetch is not available in this runtime')
     }
-    return globalThis.fetchNui<T>(event, data)
+
+    const resourceName = globalThis.GetParentResourceName
+        ? globalThis.GetParentResourceName()
+        : ((window as any).resourceName || 'sable_payroll')
+
+    const res = await fetch(`https://${resourceName}/${event}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify(data ?? {}),
+    })
+
+    return res.json() as Promise<T>
 }
+
+export const apiCloseApp = () => call<GenericResult>('close')
 
 // --- Player ----------------------------------------------------------------
 
