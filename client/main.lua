@@ -33,9 +33,9 @@ local function sendAppMessage(event, data)
 end
 
 local function closeApp()
-    if not appOpen then return end
     appOpen = false
     SetNuiFocus(false, false)
+    SetNuiFocusKeepInput(false)
     SendNUIMessage({ action = "sable:close" })
 end
 
@@ -67,6 +67,19 @@ RegisterCommand("sablepayroll", function()
 end, false)
 
 RegisterKeyMapping("sablepayroll", "Open S.A.B.L.E. Payroll Tablet", "keyboard", "F6")
+
+-- Hard close on startup/restart so this UI can never sit over character select.
+CreateThread(function()
+    Wait(250)
+    closeApp()
+    Wait(500)
+    closeApp()
+end)
+
+AddEventHandler("onClientResourceStart", function(res)
+    if res ~= resourceName then return end
+    closeApp()
+end)
 
 -- ----------------------------------------------------------------------------
 -- Job change: refresh app visibility + notify UI if it's open.
